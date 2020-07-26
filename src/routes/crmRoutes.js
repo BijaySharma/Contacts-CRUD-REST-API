@@ -5,20 +5,31 @@ import {
     updateContact,
     deleteContact
 } from  '../controllers/crmController';
+import {
+    register,
+    login,
+    loginRequired
+} from '../controllers/userController';
 
 const routes = (app) => {
-    app.route('/contact')
-        .get(getContacts)
+    app.route('/contacts')
+        .get(loginRequired, getContacts)
         
-        .post(addNewContact);
+        .post(loginRequired, addNewContact);
 
     
     app.route('/contact/:contactID')
-        .get(getContactsByID)
+        .get(loginRequired, getContactsByID)
 
-        .put(updateContact)
+        .put(loginRequired, updateContact)
         
-        .delete(deleteContact);
+        .delete(loginRequired, deleteContact);
+
+    app.route('/auth/register')
+        .post(register);
+    
+    app.route('/auth/login')
+        .post(login);
 
 };
 
